@@ -1,8 +1,9 @@
 <template>
     <div id="home">
         <div id="city">
-        <span>{{cityname}}</span>
-        <span id="change-city" @click="changCity">切换</span>
+            <span>{{cityname}}</span>
+            <span id="change-city" @click="changCity">切换</span>
+            <cityList></cityList>
         </div>
         <mt-search id="search" v-model="value" cancel-text="取消" placeholder="搜索">
         </mt-search>
@@ -26,8 +27,12 @@
     </div>
 </template>
 <script>
+var cityList = require('./cityList.vue');
 export default {
     name: 'home',
+    components: {
+        'cityList': cityList
+    },
     data() {
         return {
             value: "",
@@ -51,7 +56,7 @@ export default {
                 // 根据坐标得到地址描述
                 var myGeo = new BMap.Geocoder();
                 myGeo.getLocation(point, function(result) {
-                    var address = result.addressComponents.province +"/"+ result.addressComponents.city+"/" + result.addressComponents.district;
+                    var address = result.addressComponents.province + "/" + result.addressComponents.city + "/" + result.addressComponents.district;
                     console.log(JSON.stringify(result.addressComponents));
                     self.cityname = address;
                 });
@@ -59,8 +64,8 @@ export default {
         },
 
         //切换城市
-        changCity:function(){
-          this.$router.push('/cityList');
+        changCity: function() {
+            //this.$router.push('/cityList');
         }
 
     },
@@ -78,14 +83,13 @@ export default {
 }
 
 #search {
-    margin-top:10px;
+    margin-top: 10px;
     height: 20%
 }
 
-#city {
+#city {}
 
+#change-city {
+    float: right;
 }
-#change-city{
-      float:right;
-    }
 </style>
